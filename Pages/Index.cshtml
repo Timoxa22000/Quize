@@ -1,0 +1,80 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+    string firstModal = "modal0";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <a class="btn btn-primary" data-bs-toggle="modal" href="#@firstModal" role="button">Начать опрос</a>
+</div>
+@foreach (var item in Model.Model.Asks.OrderBy(c=>c.PlaceInLine))
+{
+    string idModal = $"modal{item.PlaceInLine}";
+    string idNextModal = $"modal{item.PlaceInLine + 1}";
+    <div class="modal fade" id="@idModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel">@item.Subject</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                </div>
+                <div class="modal-body">
+                    @item.Description
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-target="#@idNextModal" data-bs-toggle="modal">Далее</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@*<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Модалка 1</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+                Покажите второе модальное окно и скройте его с помощью кнопки ниже.
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Открыть второе модальное окно</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Модалка 2</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+                Скройте это модальное окно и покажите первое с помощью кнопки ниже.
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Вернуться к первому</button>
+            </div>
+        </div>
+    </div>
+</div>
+*@
+
+@section scripts{
+    <script>
+        $(document).ready(function(){
+            console.log('start');
+            const myModal = document.getElementById('exampleModalToggle')
+            $(document).on('click', '#startQuestionnaire', function(){
+                console.log('click');
+                myModal.addEventListener('shown.bs.modal', () => {
+                    myInput.focus();
+                });
+            });
+        });
+    </script>
+}
